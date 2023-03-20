@@ -1,24 +1,19 @@
 #include <math.h>
 #include "integration.h"
 
-double trapezoid_area(double a, double b, double h)
+double integral(double a, double b, double (*f)(double), unsigned n)
 {
-	return h * (a + b) / 2;
-}
-
-double integral(double a, double b, double (*f)(double), double delta)
-{
-	if (delta == 0)
+	if (n == 0)
 		return NAN;
 
 	if (a > b)
-		return -integral(b, a, f, delta);
+		return -integral(b, a, f, n);
 
-	delta = fabs(delta);
-	double s = 0;
+	double delta = (b - a) / n;
+	double s = (f(a) + f(b)) / 2;
 
-	while (delta <= b - a)
-		s += trapezoid_area(f(a), f(a += delta), delta);
+	while (b - a > delta)
+		s += f(a += delta);
 
-	return s + trapezoid_area(f(a), f(b), b - a);
+	return s * delta;
 }

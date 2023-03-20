@@ -1,1 +1,1 @@
-double integral(double a, double b, double (*f)(double), double delta);
+double integral(double a, double b, double (*f)(double), unsigned n);
